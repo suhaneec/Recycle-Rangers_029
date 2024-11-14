@@ -21,30 +21,56 @@ Key columns include STATE/UT, Year, and various crime types (e.g., Murder, Assau
 
 These insights and KPIs can guide our dashboard design, helping users explore crime trends, compare regions, and gain a deeper understanding of crime data across different dimensions.
 
-* Yearly Crime Trends (Overall and by Crime Type)
-     Insight: Analyze the overall trend of crimes over the years, both at the state and district levels.
-     Visualization: Line charts showing the trend of total crimes over time, and separate lines for each major crime type (e.g., Murder, Assault on women).
+* Yearly Crime Trends (Overall and by Crime Type):
+
+   Insight: Analyze the overall trend of crimes over the years, both at the state and district levels.
+
+   Visualization: Line charts showing the trend of total crimes over time, and separate lines for each major crime type (e.g., Murder, Assault on women).
+  
 * Top States by Crime Rate
-     Insight: Identify states with the highest crime rates in various categories to highlight areas with significant crime activity.
-     Visualization: Bar chart comparing crime rates across states, with filters for different crime types.
+
+   Insight: Identify states with the highest crime rates in various categories to highlight areas with significant crime activity.
+
+   Visualization: Bar chart comparing crime rates across states, with filters for different crime types.
+  
 * District-Level Crime Distribution
-     Insight: Show crime distribution at a more granular level by district to see local hotspots.
-     Visualization: Interactive map or heatmap that highlights districts based on crime rates or specific crime categories.
+
+   Insight: Show crime distribution at a more granular level by district to see local hotspots.
+
+   Visualization: Interactive map or heatmap that highlights districts based on crime rates or specific crime categories.
+  
 * Crime Category Breakdown
-     Insight: Examine the proportion of each crime type to understand the prevalence of different crimes within states and districts.
-     Visualization: Pie charts or stacked bar charts showing the distribution of crime types for selected states/districts.
+
+  Insight: Examine the proportion of each crime type to understand the prevalence of different crimes within states and districts.
+
+  Visualization: Pie charts or stacked bar charts showing the distribution of crime types for selected states/districts.
+  
 * Crime Category Breakdown
-     Insight: Examine the proportion of each crime type to understand the prevalence of different crimes within states and districts.
-     Visualization: Pie charts or stacked bar charts showing the distribution of crime types for selected states/districts.
+
+  Insight: Examine the proportion of each crime type to understand the prevalence of different crimes within states and districts.
+
+  Visualization: Pie charts or stacked bar charts showing the distribution of crime types for selected states/districts.
+  
 * Yearly Comparison of Specific Crime Types
-     Insight: For selected crime types, compare rates over years to observe changes or trends (e.g., increases in assault or abduction cases).
-     Visualization: Multi-line chart comparing trends for specific crime types.
+
+  Insight: For selected crime types, compare rates over years to observe changes or trends (e.g., increases in assault or abduction cases).
+
+  Visualization: Multi-line chart comparing trends for specific crime types.
+  
 * Impact of Legislation on Crime Rates (POA and PCR Acts)
-     Insight: Investigate if there's a noticeable impact on certain crimes related to the Protection of Civil Rights (PCR) and Prevention of Atrocities (POA) Acts.
-     Visualization: Line or bar chart showing crime rates related to these Acts over time.
+
+  Insight: Investigate if there's a noticeable impact on certain crimes related to the Protection of Civil Rights (PCR) and Prevention of Atrocities (POA) Acts.
+
+  Visualization: Line or bar chart showing crime rates related to these Acts over time.
+  
 * Top Crime Types in Each State
-     Insight: Find the most common types of crimes in each state to better understand local challenges.
-     Visualization: A horizontal bar chart showing the top crime types for each selected state.
+
+  Insight: Find the most common types of crimes in each state to better understand local challenges.
+
+  Visualization: A horizontal bar chart showing the top crime types for each selected state.
+  
 * High-Risk States/Districts for Women
-     Insight: Highlight states/districts with high rates of crimes against women, such as assault or abduction.
-     Visualization: Bar chart or heatmap focusing on crimes affecting women, with filters by year and region.  
+
+  Insight: Highlight states/districts with high rates of crimes against women, such as assault or abduction.
+
+  visualization: Bar chart or heatmap focusing on crimes affecting women, with filters by year and region.  
