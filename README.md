@@ -1,6 +1,13 @@
 This project analyzes crime rates across various states using the provided dataset, `crime_by_districts.csv`. 
 It offers insights into trends and patterns in crime occurrences, aiming to inform decision-making and policy formulation.
 
+Data Analysis and Visualization
+In this project, we explored:
+
+Yearly trends in crime rates by state.
+
+Comparative analysis of states based on crime types.
+
 About the Dataset:
 The `crime_by_districts.csv` dataset includes data on crime rates segmented by state, potentially covering various crime categories and yearly records. Each row represents a specific instance (e.g., a state in a particular year), and columns detail crime statistics and possibly other relevant demographic or geographical information.
 Key columns (if known):
