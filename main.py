@@ -24,7 +24,8 @@ df["Total Crime"] = df[crime_columns].sum(axis=1)
 st.set_page_config(page_title="Crime Analysis Dashboard", layout="wide", initial_sidebar_state="expanded")
 
 
-st.title("🚨 Crime Analysis Against Schedule Caste 🚨")
+st.title("🚨CRIME ANALYSIS AGAINST SCHEDULE CASTE")
+st.subheader("Unveiling Crime Trends: A Comprehensive Analysis of Crime with SC Data Across Indian States and Districts")
 st.markdown("---")
 
 # Sidebar filters
@@ -297,7 +298,16 @@ st.write("---")
 st.markdown(
     """
     <footer style='text-align: center'>
-    Created by [Recyce Ranger_029] | Data Source: [kaggle](https://www.kaggle.com/datasets/khalidative/crimeanalysis)
+    Project Code: [Recyce Ranger_029] | Data Source: [kaggle](https://www.kaggle.com/datasets/khalidative/crimeanalysis)
+    
+    Credits:
+    This project was collaboratively developed and executed by the following team members:
+
+    -> Suhani - Report Compilation and Final Presentation  ;
+    -> Misba - Exploratory Data Analysis and Insights Generation  ;
+    -> Sougata - Data Visualization and Dashboard Design  ;
+    -> Arpan - Data Cleaning and Preprocessing  ;
+    -> Ritika - Project Management and Quality Assurance  ;
     </footer>
     """,
     unsafe_allow_html=True
