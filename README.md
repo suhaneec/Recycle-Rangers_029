@@ -39,18 +39,6 @@ These insights and KPIs can guide our dashboard design, helping users explore cr
 
    Visualization: Interactive map or heatmap that highlights districts based on crime rates or specific crime categories.
   
-* Crime Category Breakdown
-
-  Insight: Examine the proportion of each crime type to understand the prevalence of different crimes within states and districts.
-
-  Visualization: Pie charts or stacked bar charts showing the distribution of crime types for selected states/districts.
-  
-* Crime Category Breakdown
-
-  Insight: Examine the proportion of each crime type to understand the prevalence of different crimes within states and districts.
-
-  Visualization: Pie charts or stacked bar charts showing the distribution of crime types for selected states/districts.
-  
 * Yearly Comparison of Specific Crime Types
 
   Insight: For selected crime types, compare rates over years to observe changes or trends (e.g., increases in assault or abduction cases).
