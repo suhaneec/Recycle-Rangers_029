@@ -298,7 +298,7 @@ st.write("---")
 st.markdown(
     """
     <footer style='text-align: center'>
-    Project Code: [Recyce Ranger_029] | Data Source: [kaggle](https://www.kaggle.com/datasets/khalidative/crimeanalysis)
+    Project Code: [Recycle Ranger_029] | Data Source: [kaggle](https://www.kaggle.com/datasets/khalidative/crimeanalysis)
     
     Credits:
     This project was collaboratively developed and executed by the following team members:
