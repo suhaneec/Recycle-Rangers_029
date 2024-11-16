@@ -293,12 +293,45 @@ st.markdown(
 
 st.write("---")
 
+# **10. Heatmap of Total Crimes Against SCs by State/UT Over the Years
+st.subheader("Heatmap of Total Crimes Against SCs by State/UT Over the Years")
+
+# Create a pivot table for heatmap visualization
+df['STATE/UT'] = df['STATE/UT'].str.strip().str.upper()
+heatmap_data = df.pivot_table(values='Total Crimes', index='STATE/UT', columns='Year', aggfunc='sum', fill_value=0)
+
+
+
+# Plot the heatmap using Plotly Express
+fig = px.imshow(
+    heatmap_data,
+    labels=dict(x="Year", y="State/UT", color="Total Crimes"),
+    x=heatmap_data.columns,
+    y=heatmap_data.index,
+    color_continuous_scale='YlGnBu',
+    title='Heatmap of Total Crimes Against SCs by State/UT Over the Years'
+)
+
+# Update layout for better readability
+fig.update_layout(
+    xaxis_title="Year",
+    yaxis_title="State/UT",
+    width=1000,
+    height=800
+)
+
+# Display the heatmap in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+st.write("---")
+
 
 # **10. Footer Section**
 st.markdown(
     """
     <footer style='text-align: center'>
-    Project Code: [Recycle Ranger_029] | Data Source: [kaggle](https://www.kaggle.com/datasets/khalidative/crimeanalysis)
+    Project Code: [Recycle Rangers_029] | Data Source: [kaggle](https://www.kaggle.com/datasets/khalidative/crimeanalysis)
     
     Credits:
     This project was collaboratively developed and executed by the following team members:
