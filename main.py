@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 import PreProcessor
 
-# Reading the datap
+# Reading the data
 df = pd.read_csv("crime_district.csv")
 df.drop_duplicates(inplace=True)
 
@@ -22,27 +22,25 @@ df["Total Crime"] = df[crime_columns].sum(axis=1)
 
 # Main Streamlit application
 st.set_page_config(page_title="Crime Analysis Dashboard", layout="wide", initial_sidebar_state="expanded")
-
-
-st.title("🚨CRIME ANALYSIS AGAINST SCHEDULE CASTE")
+st.title("Crime Analysis Against Schedule Caste 🚨")
 st.subheader("Unveiling Crime Trends: A Comprehensive Analysis of Crime with SC Data Across Indian States and Districts")
 st.markdown("---")
 
-# Sidebar filters
 
+# Sidebar filters
 # Add the logo to the sidebar
 st.sidebar.image("logo.jpg", width = 280)
 st.sidebar.title("🔍 Filters")
 selected_State = PreProcessor.multiselect("Select State", df["STATE/UT"].unique())
 selected_district = PreProcessor.multiselect("Select District", df["DISTRICT"].unique())
 selected_year = PreProcessor.multiselect("Select Year", df["Year"].unique())
- 
 
+ 
 # Data Filtering
 filter_df = df[(df["STATE/UT"].isin(selected_State)) & (df["Year"].isin(selected_year))]
 
 # Metrics
-st.markdown("### Headers")
+st.markdown("### Crime Insights Overview")
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("States/UT", filter_df["STATE/UT"].nunique())
@@ -67,10 +65,10 @@ fig1 = px.bar(
 st.plotly_chart(fig1, use_container_width=True)
 st.write("---")
 
-# **2. slider column
+# **2. select column
 df['Year'] = df['Year'].astype(str)
-st.subheader("🔢 Filter Data by Numerical Column")
-num_column = st.selectbox("Select a numerical column:", df.select_dtypes(include=np.number).columns)
+st.subheader("🔢 Filter Data by Crime ")
+num_column = st.selectbox("Select a Crime", df.select_dtypes(include=np.number).columns)
 
 # Get the min and max values for the input
 min_value = float(df[num_column].min())
@@ -101,7 +99,7 @@ fig2 = px.bar(
     labels={"Total Crime": "Total Crimes", "Year": "Year"},
     color_discrete_sequence=px.colors.qualitative.Prism
 )
-# Display the bar plot
+
 st.plotly_chart(fig2, use_container_width=True)
 
 st.markdown(
@@ -116,19 +114,87 @@ st.markdown(
 )
 st.write("---")
 
-# **4. Special Acts Analysis (POA & PCR)**
-st.subheader("🛡️ Crimes Under Special Acts Over the Years")
-df_acts = df.groupby("Year")[["Prevention of atrocities (POA) Act", "Protection of Civil Rights (PCR) Act"]].sum().reset_index()
-fig3 = px.line(
+# **4.Crime Statistics in Union Territories for the Year 
+st.subheader("Crime Statistics in Union Territories")
+# List of Union Territories in India
+union_territories = [
+    "Andaman & Nicobar Islands", "Chandigarh", "Dadra & Nagar Haveli",
+    "Daman & Diu", "Lakshadweep", "Delhi", "Puducherry", "Ladakh", "Jammu & Kashmir"
+]
+
+# Filter the DataFrame for Union Territories
+ut_df = df[df["STATE/UT"].isin(union_territories)]
+
+# Check the number of unique years
+unique_years = ut_df["Year"].unique()
+
+# Handling single-year case
+if len(unique_years) == 1:
+    year = unique_years[0]
+    st.warning(f"Only one year available in the dataset: {year}")
+else:
+    # Streamlit slider for year selection
+    year = st.slider("Select Year", int(min(unique_years)), int(max(unique_years)), step=1)
+
+# Filter data for the selected year
+ut_year_df = ut_df[ut_df["Year"] == year]
+
+# Group by 'STATE/UT' and sum the 'Total Crime' for that year
+crime_data = ut_year_df.groupby("STATE/UT")["Total Crime"].sum().reset_index()
+
+fig3 = px.bar(
+    crime_data,
+    x="STATE/UT",  
+    y="Total Crime", 
+    title=f"Crime Statistics in Union Territories for the Year {year}",
+    labels={"Total Crime": "Total Crimes", "STATE/UT": "Union Territory"},
+    color="Total Crime",
+    color_discrete_sequence=px.colors.qualitative.Vivid
+)
+
+st.plotly_chart(fig3, use_container_width=True)
+st.markdown(
+    """
+    <div style='font-size:20px;'>
+        **Summary:**
+        This bar chart provides a visual overview of crime data across various Union Territories for the selected year. It highlights the total crime incidents, allowing for a comparison between regions and helping identify areas with higher crime rates.
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
+st.write("---")
+
+# **5. Special Acts Analysis (POA & PCR)**
+st.subheader("🛡️ Trends of Crime Under Special Acts Over the Years")
+
+# Get the range of years for the slider
+min_year = df['Year'].min()
+max_year = df['Year'].max()
+
+# Streamlit slider for year selection
+selected_years = st.slider(
+    "Select Year Range", min_year, max_year, (min_year, max_year), step=1
+)
+
+# Filter the data based on the selected years
+df_acts_filtered = df[(df['Year'] >= selected_years[0]) & (df['Year'] <= selected_years[1])]
+
+# Group data by Year and calculate the sum for the selected range
+df_acts = df_acts_filtered.groupby("Year")[["Prevention of atrocities (POA) Act", "Protection of Civil Rights (PCR) Act"]].sum().reset_index()
+
+fig4 = px.line(
     df_acts, x="Year", y=["Prevention of atrocities (POA) Act", "Protection of Civil Rights (PCR) Act"],
     markers=True,
     labels={"value": "Crime Counts", "Year": "Year"},
     color_discrete_map={
-        "Prevention of atrocities (POA) Act": "purple",
+        "Prevention of atrocities (POA) Act": "blue",
         "Protection of Civil Rights (PCR) Act": "skyblue"
     }
 )
-st.plotly_chart(fig3, use_container_width=True)
+
+# Display the plot
+st.plotly_chart(fig4, use_container_width=True)
 
 st.markdown(
     """
@@ -148,7 +214,7 @@ st.write("---")
 crime_sums = df[crime_columns].sum()
 
 
-# **5.Crime Categories with Highest Incident KPI**
+# **6.Crime Categories with Highest Incident KPI**
 # Create a DataFrame for the pie chart
 crime_sums_df = pd.DataFrame({
     'Crime Category': crime_columns,
@@ -157,16 +223,16 @@ crime_sums_df = pd.DataFrame({
 
 # Create the pie chart using plotly.express
 st.subheader("PieChart of Crime Categories with Highest Incident KPI ")
-fig4 = px.pie(
+fig5 = px.pie(
     crime_sums_df, 
     names='Crime Category', 
     values='Total Crimes', 
     color='Crime Category',  # Differentiates each segment by color
-    color_discrete_sequence=px.colors.qualitative.Set3_r # Color palette
+    color_discrete_sequence=px.colors.qualitative.Vivid
 )
 
 # Display the pie chart in Streamlit
-st.plotly_chart(fig4, use_container_width=True)
+st.plotly_chart(fig5, use_container_width=True)
 # Markdown text with 20px font size
 st.markdown(
     """
@@ -181,7 +247,7 @@ st.markdown(
 st.write("---")
 
 
-# **6. Crime Rates by State**
+# **7. Crime Rates by State**
 st.subheader("Barplot of Top 5 States with Highest and Lowest Crime Rates")
 df['Total Crimes'] = df.iloc[:, 3:].sum(axis=1)  # Create a column for total crimes
 state_crime_rates = df.groupby('STATE/UT')['Total Crimes'].sum()
@@ -196,7 +262,7 @@ fig6 = px.bar(
     top_states, x='STATE/UT', y='Total Crimes', color='Crime Category',
     
     labels={'Total Crimes': 'Total Crimes', 'STATE/UT': 'State/UT'},
-    color_discrete_map={'Highest': '#FF6347', 'Lowest': '#00BFFF'},
+    color_discrete_map={'Highest': '#1f77b4', 'Lowest': '#87CEFA'},
     barmode='group'
 )
 # Display the plot
@@ -204,7 +270,7 @@ st.plotly_chart(fig6, use_container_width=True)
 st.markdown("<h1 style='font-size: 20px;'>This Bar Graph show's a Comparison of Top 5 States with Highest and Lowest Crime Rates over the years against SC's </h1>", unsafe_allow_html=True)
 st.write("---")
 
-# **7. Trends of Murders and Assaults on Women by Year
+# **8. Trends of Murders and Assaults on Women by Year
 
 st.subheader("Trends of Murders and Assaults on Women by Year")
 # Calculate yearly sums
@@ -214,19 +280,19 @@ yearly_data = df.groupby('Year')[['Murder', 'Assault on women']].sum().reset_ind
 melted_data = yearly_data.melt(id_vars='Year', var_name='Crime Type', value_name='Number of Cases')
 
 # Create line plot
-fig8 = px.line(
+fig7 = px.line(
     melted_data,
     x='Year',
     y='Number of Cases',
     color='Crime Type',
     markers=True,
 )
-st.plotly_chart(fig8, use_container_width=True)
+st.plotly_chart(fig7, use_container_width=True)
 st.markdown("<h1 style='font-size: 20px;'> This line Graph indicates the trends of Murder's and Assaults on Women Over the years</h1>", unsafe_allow_html=True)
 
 st.write("---")
 
-# 8. Most Common Crime by State
+# 9. Most Common Crime by State
 st.subheader("Most Common Crime In Each State")
 # Calculate total crime
 crime_columns = ['Murder', 'Assault on women', 'Kidnapping and Abduction', 
@@ -244,11 +310,11 @@ most_common_df = pd.DataFrame({
     'Count': most_common_crime_count.values
 })
 
-fig7 = px.bar(
+fig8 = px.bar(
     most_common_df, x='State', y='Count', color='Most Common Crime',
-    color_discrete_sequence=px.colors.qualitative.Pastel
+    color_discrete_sequence=px.colors.qualitative.Vivid
 )
-st.plotly_chart(fig7, use_container_width=True)
+st.plotly_chart(fig8, use_container_width=True)
 st.markdown(
     "<h3 style='font-size:20px;'>The bar plot reveals the which crime has been reported against SC's in each state, along with the number of occurrences.</h3>", 
     unsafe_allow_html=True
@@ -256,7 +322,7 @@ st.markdown(
 
 st.write("---")
 
-# **9 Top 10 Districts with Highest Cases
+# **10. Top 10 Districts with Highest Cases
 # Allow user to select a crime type for analysis
 selected_crime_type = st.selectbox('Choose a crime type for analysis', crime_columns)  # Using predefined crime columns list
 
@@ -273,27 +339,26 @@ top_districts = (filtered_df.groupby(["DISTRICT"])[selected_crime_type]
 st.subheader(f"Top 10 Districts with Highest {selected_crime_type} Cases")
 
 # Create a bar plot using Plotly Express
-fig = px.bar(
+fig9 = px.bar(
     top_districts,
     x="DISTRICT",
     y=selected_crime_type,
     color="DISTRICT",
     title=f"Top 10 Districts with Highest {selected_crime_type} Cases",
     labels={selected_crime_type: "Number of Cases", "DISTRICT": "District"},
-    color_discrete_sequence=px.colors.qualitative.Set3
+    color_discrete_sequence=px.colors.qualitative.Vivid
 )
 
 # Display the plot in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig9, use_container_width=True)
 
 st.markdown(
     "<h3 style='font-size:20px;'> The line chart illustrates trends of 10 districts with most crime occured over the years .</h3>", 
     unsafe_allow_html=True
 )
-
 st.write("---")
 
-# **10. Heatmap of Total Crimes Against SCs by State/UT Over the Years
+# **11. Heatmap of Total Crimes Against SCs by State/UT Over the Years
 st.subheader("Heatmap of Total Crimes Against SCs by State/UT Over the Years")
 
 # Create a pivot table for heatmap visualization
@@ -303,7 +368,7 @@ heatmap_data = df.pivot_table(values='Total Crimes', index='STATE/UT', columns='
 
 
 # Plot the heatmap using Plotly Express
-fig = px.imshow(
+fig10 = px.imshow(
     heatmap_data,
     labels=dict(x="Year", y="State/UT", color="Total Crimes"),
     x=heatmap_data.columns,
@@ -313,7 +378,7 @@ fig = px.imshow(
 )
 
 # Update layout for better readability
-fig.update_layout(
+fig10.update_layout(
     xaxis_title="Year",
     yaxis_title="State/UT",
     width=1000,
@@ -321,13 +386,10 @@ fig.update_layout(
 )
 
 # Display the heatmap in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
+st.plotly_chart(fig10, use_container_width=True)
 st.write("---")
 
-
-# **10. Footer Section**
+# **12. Footer Section**
 st.markdown(
     """
     <footer style='text-align: center'>
