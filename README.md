@@ -1,6 +1,6 @@
 # 🛡️ **Crime Analysis Dashboard**
 
-🌐 **Live App**: [Explore the Dashboard](https://liveproject1.streamlit.app/)
+🌐 **Live App**: [Explore the Dashboard]((https://sc-crimeanalysis.streamlit.app/))
 
 ---
 
